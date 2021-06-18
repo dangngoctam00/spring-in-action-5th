@@ -1,0 +1,41 @@
+#security:
+#  user:
+#    name: buzz
+#    password: infinity
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  data:
+    rest:
+      base-path: /api
+
+taco:
+  orders:
+    pageSize: 10
+
+
+  discount:
+    codes:
+      abcdef: 10
+      
+#logging:
+#  level:
+#    org.springframework.data.rest: debug
+
+---
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: root
+    password: scotlandyard
+
+  config:
+    activate:
+      on-profile: prod
+logging:
+  level:
+    tacos: WARN
+    
