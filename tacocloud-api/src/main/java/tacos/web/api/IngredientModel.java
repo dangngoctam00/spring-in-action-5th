@@ -6,7 +6,7 @@ import lombok.Getter;
 import tacos.Ingredient;
 import tacos.Ingredient.Type;
 
-public class IngredientResource extends RepresentationModel<IngredientResource> {
+public class IngredientModel extends RepresentationModel<IngredientModel> {
 
   @Getter
   private String name;
@@ -14,7 +14,7 @@ public class IngredientResource extends RepresentationModel<IngredientResource> 
   @Getter
   private Type type;
   
-  public IngredientResource(Ingredient ingredient) {
+  public IngredientModel(Ingredient ingredient) {
     this.name = ingredient.getName();
     this.type = ingredient.getType();
   }

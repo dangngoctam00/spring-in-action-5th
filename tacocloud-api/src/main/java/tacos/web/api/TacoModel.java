@@ -10,10 +10,10 @@ import org.springframework.hateoas.server.core.Relation;
 import tacos.Taco;
 
 @Relation(value="taco", collectionRelation="tacos")
-public class TacoResource extends RepresentationModel<TacoResource> {
+public class TacoModel extends RepresentationModel<TacoModel> {
 
-  private static final IngredientResourceAssembler 
-            ingredientAssembler = new IngredientResourceAssembler();
+  private static final IngredientModelAssembler
+            ingredientAssembler = new IngredientModelAssembler();
   
   @Getter
   private final String name;
@@ -22,9 +22,9 @@ public class TacoResource extends RepresentationModel<TacoResource> {
   private final Date createdAt;
 
   @Getter
-  private final Collection<IngredientResource> ingredients;
+  private final Collection<IngredientModel> ingredients;
   
-  public TacoResource(Taco taco) {
+  public TacoModel(Taco taco) {
     this.name = taco.getName();
     this.createdAt = taco.getCreatedAt();
     this.ingredients =

@@ -2,6 +2,7 @@ package tacos;
 
 import java.util.Arrays;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,11 +17,13 @@ import tacos.data.UserRepository;
 @SuppressWarnings("SpellCheckingInspection")
 @Profile("!prod")
 @Configuration
+@Slf4j
 public class DevelopmentConfig {
 
   @Bean
   public CommandLineRunner dataLoader(IngredientRepository repo,
         UserRepository userRepo, PasswordEncoder encoder, TacoRepository tacoRepo) { // user repo for ease of testing with a built-in user
+    log.info("CommandLineRunner is called.");
     return args -> {
       Ingredient flourTortilla = new Ingredient("FLTO", "Flour Tortilla", Type.WRAP);
       Ingredient cornTortilla = new Ingredient("COTO", "Corn Tortilla", Type.WRAP);

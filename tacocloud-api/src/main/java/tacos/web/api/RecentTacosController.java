@@ -26,15 +26,15 @@ public class RecentTacosController {
   }
 
   @GetMapping(path="/tacos/recent", produces="application/hal+json")
-  public ResponseEntity<CollectionModel<TacoResource>> recentTacos() {
+  public ResponseEntity<CollectionModel<TacoModel>> recentTacos() {
     PageRequest page = PageRequest.of(
                           0, 12, Sort.by("createdAt").descending());
     List<Taco> tacos = tacoRepo.findAll(page).getContent();
 
-    List<TacoResource> tacoResources =
-            (List<TacoResource>) new TacoResourceAssembler().toCollectionModel(tacos);
-    CollectionModel<TacoResource> recentResources =
-            new CollectionModel<TacoResource>(tacoResources);
+    List<TacoModel> tacoResources =
+            (List<TacoModel>) new TacoModelAssembler().toCollectionModel(tacos);
+    CollectionModel<TacoModel> recentResources =
+            new CollectionModel<TacoModel>(tacoResources);
     
     recentResources.add(
         linkTo(methodOn(RecentTacosController.class).recentTacos())
