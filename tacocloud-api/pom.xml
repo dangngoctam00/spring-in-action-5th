@@ -70,6 +70,12 @@
 			<artifactId>spring-data-rest-webmvc</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>sia</groupId>
+			<artifactId>tacocloud-messaging-kafka</artifactId>
+			<version>${tacocloud.version}</version>
+		</dependency>
+
 	</dependencies>
 
 </project>
