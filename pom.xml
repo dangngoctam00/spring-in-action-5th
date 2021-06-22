@@ -50,8 +50,11 @@
     <module>tacocloud-ui</module>
 
     <module>tacocloud-kitchen</module>
+
     <module>tacocloud-messaging-kafka</module>
-      <module>tacocloud-email</module>
+
+    <module>tacocloud-email</module>
+    <module>tacocloud-mvc</module>
 
   </modules>
   
