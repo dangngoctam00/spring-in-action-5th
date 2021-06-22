@@ -1,5 +1,6 @@
 package tacos.web.api;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -19,19 +20,24 @@ import tacos.Order;
 import tacos.data.OrderRepository;
 import tacos.messaging.OrderMessagingService;
 
+@Slf4j
 @RestController
 @RequestMapping(path="/orders",
                 produces="application/json")
 @CrossOrigin(origins="*")
 public class OrderApiController {
 
-  private OrderRepository repo;
-  private OrderMessagingService orderMessages;
+  private final OrderRepository repo;
+  private final OrderMessagingService orderMessages;
+  private final EmailOrderService emailOrderService;
 
   @Autowired
-  public OrderApiController(OrderRepository repo, OrderMessagingService orderMessages) {
+  public OrderApiController(OrderRepository repo,
+                            OrderMessagingService orderMessages,
+                            EmailOrderService emailOrderService) {
     this.repo = repo;
     this.orderMessages = orderMessages;
+    this.emailOrderService = emailOrderService;
   }
   
   @GetMapping(produces="application/json")
@@ -42,13 +48,21 @@ public class OrderApiController {
   @PostMapping(consumes="application/json")
   @ResponseStatus(HttpStatus.CREATED)
   public Order postOrder(@RequestBody Order order) {
-    orderMessages.sendOrder(order);
-    return new Order();
-//    return repo.save(order);
+//    orderMessages.sendOrder(order);
+    return repo.save(order);
+  }
+
+  @PostMapping(path="fromEmail", consumes="application/json")
+  @ResponseStatus(HttpStatus.CREATED)
+  public Order postOrderFromEmail(@RequestBody EmailOrder emailOrder) {
+    Order order = emailOrderService.convertEmailOrderToDomainOrder(emailOrder);
+    log.info("Email integration, postOrderFromEmail function receives: " + emailOrder);
+//    orderMessages.sendOrder(order);
+    return repo.save(order);
   }
 
   @PutMapping(path="/{orderId}", consumes="application/json")
-  public Order putOrder(@RequestBody Order order) {
+  public Order putOrder(@PathVariable("orderId") Long id, @RequestBody Order order) {
     return repo.save(order);
   }
 
