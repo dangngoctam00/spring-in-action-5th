@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import tacos.Ingredient.Type;
 import tacos.data.IngredientRepository;
+import tacos.data.PaymentMethodRepository;
 import tacos.data.TacoRepository;
 import tacos.data.UserRepository;
 
@@ -22,7 +23,10 @@ public class DevelopmentConfig {
 
   @Bean
   public CommandLineRunner dataLoader(IngredientRepository repo,
-        UserRepository userRepo, PasswordEncoder encoder, TacoRepository tacoRepo) { // user repo for ease of testing with a built-in user
+                                      UserRepository userRepo,
+                                      PasswordEncoder encoder,
+                                      TacoRepository tacoRepo,
+                                      PaymentMethodRepository paymentMethodRepo) { // user repo for ease of testing with a built-in user
     log.info("CommandLineRunner is called.");
     return args -> {
       Ingredient flourTortilla = new Ingredient("FLTO", "Flour Tortilla", Type.WRAP);
@@ -47,9 +51,11 @@ public class DevelopmentConfig {
       repo.save(sourCream);
 
 
-      userRepo.save(new User("habuma", encoder.encode("password"),
+      User user1 = userRepo.save(new User("habuma", encoder.encode("password"),
           "Craig Walls", "123 North Street", "Cross Roads", "TX",
-          "76227", "123-123-1234"));
+          "76227", "123-123-1234", "dnt@dnt.tacocloud"));
+
+      paymentMethodRepo.save(new PaymentMethod(user1, "374245455400126", "0987", "12/20"));
 
       Taco taco1 = new Taco();
       taco1.setName("Carnivore");
@@ -65,7 +71,6 @@ public class DevelopmentConfig {
       taco3.setName("Veg-Out");
       taco3.setIngredients(Arrays.asList(flourTortilla, cornTortilla, tomatoes, lettuce, salsa));
       tacoRepo.save(taco3);
-
     };
   }
   

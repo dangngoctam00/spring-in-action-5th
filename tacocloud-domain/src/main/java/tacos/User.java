@@ -12,14 +12,13 @@ import org.springframework.security.core.authority.
                                           SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor(access=AccessLevel.PRIVATE, force=true)
+@NoArgsConstructor(force=true)
 @RequiredArgsConstructor
 public class User implements UserDetails {
 
@@ -38,6 +37,7 @@ public class User implements UserDetails {
   private final String state;
   private final String zip;
   private final String phoneNumber;
+  private final String email;
   
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
